@@ -8,7 +8,7 @@
 # environment variables before using this Makefile.
 
 # $(PYTHONHOME)=	/usr/local/
-# $(PYTHONVERSION)=	1.4
+# $(PYTHONVERSION)=	1.4.18
 
 # The following lines should be left as is:
 VERSION=	$(PYTHONVERSION)

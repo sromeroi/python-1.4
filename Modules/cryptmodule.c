@@ -1,6 +1,9 @@
 /* cryptmodule.c - by Steve Majewski
  */
 
+#define _XOPEN_SOURCE
+#include <unistd.h>
+
 #include "allobjects.h"
 
 #include <sys/types.h>
@@ -13,7 +16,6 @@ static object *crypt_crypt(self, args)
 	object *self, *args;
 {
 	char *word, *salt; 
-	extern char * crypt();
 
 	struct passwd *p;
 	if (!getargs(args, "(ss)", &word, &salt)) {

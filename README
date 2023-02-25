@@ -1,3 +1,28 @@
+
+This is Python release 1.4 patched to compile on modern systems.
+
+Patched with https://gist.github.com/gpshead/7c7df23e2c9f3d413a52cbf90e984328
+(thanks to Gregory P. Smith).
+
+Note: Due to restrictions on the US when Python 1.4 was released...
+
+    2) Due to the U.S. export restrictions, SCO broke the crypt
+    stuff out into a separate library, libcrypt_i.a so the LIBS
+    needed be set to:
+
+... compile with:
+
+LIBS='-lcrypt' ./configure && make
+
+Run locally with:
+
+PYTHONPATH="/path/to/python-1.4/Lib/" ./python
+
+Original README file:
+---
+
+
+
 This is Python release 1.4 (final)
 ==================================
 

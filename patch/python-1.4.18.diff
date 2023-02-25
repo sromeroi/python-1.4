@@ -1,0 +1,160 @@
+diff -Nru Python-1.4/Include/modsupport.h Python-1.4.18/Include/modsupport.h
+--- Python-1.4/Include/modsupport.h	1996-10-25 07:38:33.000000000 -0700
++++ Python-1.4.18/Include/modsupport.h	2018-04-01 18:47:56.279934265 -0700
+@@ -93,7 +93,7 @@
+    The full MS_DLL_VERSION_ID is imbedded in the core DLL, and
+    is so installers can determine incremental changes.
+ */
+-#define MS_DLL_ID "1.4.0"
++#define MS_DLL_ID "1.4.18"
+ #define MS_DLL_VERSION_ID       MS_DLL_ID "." PYTHON_API_STRING
+ 
+ #endif /* MS_WINDOWS */
+diff -Nru Python-1.4/Include/patchlevel.h Python-1.4.18/Include/patchlevel.h
+--- Python-1.4/Include/patchlevel.h	1996-10-21 20:09:46.000000000 -0700
++++ Python-1.4.18/Include/patchlevel.h	2018-04-01 18:47:42.460582603 -0700
+@@ -1 +1 @@
+-#define PATCHLEVEL "1.4"
++#define PATCHLEVEL "1.4.18"
+Binary files Python-1.4/Lib/os.pyc and Python-1.4.18/Lib/os.pyc differ
+Binary files Python-1.4/Lib/posixpath.pyc and Python-1.4.18/Lib/posixpath.pyc differ
+Binary files Python-1.4/Lib/stat.pyc and Python-1.4.18/Lib/stat.pyc differ
+Binary files Python-1.4/Lib/string.pyc and Python-1.4.18/Lib/string.pyc differ
+Binary files Python-1.4/Lib/test/autotest.pyc and Python-1.4.18/Lib/test/autotest.pyc differ
+Binary files Python-1.4/Lib/test/testall.pyc and Python-1.4.18/Lib/test/testall.pyc differ
+Binary files Python-1.4/Lib/test/test_b1.pyc and Python-1.4.18/Lib/test/test_b1.pyc differ
+Binary files Python-1.4/Lib/test/test_b2.pyc and Python-1.4.18/Lib/test/test_b2.pyc differ
+Binary files Python-1.4/Lib/test/test_builtin.pyc and Python-1.4.18/Lib/test/test_builtin.pyc differ
+Binary files Python-1.4/Lib/test/test_exceptions.pyc and Python-1.4.18/Lib/test/test_exceptions.pyc differ
+Binary files Python-1.4/Lib/test/test_grammar.pyc and Python-1.4.18/Lib/test/test_grammar.pyc differ
+Binary files Python-1.4/Lib/test/test_math.pyc and Python-1.4.18/Lib/test/test_math.pyc differ
+Binary files Python-1.4/Lib/test/test_opcodes.pyc and Python-1.4.18/Lib/test/test_opcodes.pyc differ
+Binary files Python-1.4/Lib/test/test_operations.pyc and Python-1.4.18/Lib/test/test_operations.pyc differ
+Binary files Python-1.4/Lib/test/test_support.pyc and Python-1.4.18/Lib/test/test_support.pyc differ
+Binary files Python-1.4/Lib/test/test_types.pyc and Python-1.4.18/Lib/test/test_types.pyc differ
+Binary files Python-1.4/Lib/UserDict.pyc and Python-1.4.18/Lib/UserDict.pyc differ
+diff -Nru Python-1.4/Makefile.in Python-1.4.18/Makefile.in
+--- Python-1.4/Makefile.in	1996-10-25 07:37:32.000000000 -0700
++++ Python-1.4.18/Makefile.in	2018-04-01 18:46:55.562782824 -0700
+@@ -77,7 +77,7 @@
+ # See also the section "Build instructions" in the README file.
+ 
+ # Interpreter version number, for library destination pathnames
+-VERSION=	1.4
++VERSION=	1.4.18
+ 
+ # Substitutions by configure
+ srcdir=		@srcdir@
+diff -Nru Python-1.4/Misc/gMakefile Python-1.4.18/Misc/gMakefile
+--- Python-1.4/Misc/gMakefile	1996-08-28 12:29:44.000000000 -0700
++++ Python-1.4.18/Misc/gMakefile	2018-04-01 18:48:12.667165455 -0700
+@@ -8,7 +8,7 @@
+ # environment variables before using this Makefile.
+ 
+ # $(PYTHONHOME)=	/usr/local/
+-# $(PYTHONVERSION)=	1.4
++# $(PYTHONVERSION)=	1.4.18
+ 
+ # The following lines should be left as is:
+ VERSION=	$(PYTHONVERSION)
+diff -Nru Python-1.4/Modules/cryptmodule.c Python-1.4.18/Modules/cryptmodule.c
+--- Python-1.4/Modules/cryptmodule.c	1995-01-12 03:29:00.000000000 -0800
++++ Python-1.4.18/Modules/cryptmodule.c	2018-04-01 18:44:07.010690481 -0700
+@@ -1,6 +1,9 @@
+ /* cryptmodule.c - by Steve Majewski
+  */
+ 
++#define _XOPEN_SOURCE
++#include <unistd.h>
++
+ #include "allobjects.h"
+ 
+ #include <sys/types.h>
+@@ -13,7 +16,6 @@
+ 	object *self, *args;
+ {
+ 	char *word, *salt; 
+-	extern char * crypt();
+ 
+ 	struct passwd *p;
+ 	if (!getargs(args, "(ss)", &word, &salt)) {
+diff -Nru Python-1.4/Modules/parsermodule.c Python-1.4.18/Modules/parsermodule.c
+--- Python-1.4/Modules/parsermodule.c	1996-10-25 07:40:26.000000000 -0700
++++ Python-1.4.18/Modules/parsermodule.c	2018-04-01 18:40:17.633451764 -0700
+@@ -19,6 +19,8 @@
+  *  this module.  See the documentation for more details.
+  */
+ 
++#include <string.h>  /* strdup() */
++
+ #include "Python.h"			/* general Python API		  */
+ #include "graminit.h"			/* symbols defined in the grammar */
+ #include "node.h"			/* internal parser structure	  */
+@@ -26,16 +28,6 @@
+ 					/* ISTERMINAL() / ISNONTERMINAL() */
+ #include "compile.h"			/* PyNode_Compile()		  */
+ 
+-/*
+- *  All the "fudge" declarations are here:
+- *
+- *  This isn't part of the Python runtime, but it's in the library somewhere.
+- *  Where it is varies a bit, so just declare it.  Don't use any prototype;
+- *  different systems declare it a little differently, and we don't need the
+- *  extra warnings.
+- */
+-extern char* strdup();
+-
+ 
+ /*  String constants used to initialize module attributes.
+  *
+diff -Nru Python-1.4/Modules/Setup.in Python-1.4.18/Modules/Setup.in
+--- Python-1.4/Modules/Setup.in	1996-08-30 13:41:30.000000000 -0700
++++ Python-1.4.18/Modules/Setup.in	2018-04-01 18:44:40.777106323 -0700
+@@ -127,7 +127,7 @@
+ fcntl fcntlmodule.c	# fcntl(2) and ioctl(2)
+ pwd pwdmodule.c		# pwd(3) 
+ grp grpmodule.c		# grp(3)
+-crypt cryptmodule.c # -lcrypt	# crypt(3); needs -lcrypt on some systems
++crypt cryptmodule.c -lcrypt	# crypt(3); needs -lcrypt on some systems
+ select selectmodule.c	# select(2); not on ancient System V
+ socket socketmodule.c	# socket(2); not on ancient System V
+ errno errnomodule.c	# posix (UNIX) errno values
+diff -Nru Python-1.4/Objects/fileobject.c Python-1.4.18/Objects/fileobject.c
+--- Python-1.4/Objects/fileobject.c	1996-10-25 07:41:20.000000000 -0700
++++ Python-1.4.18/Objects/fileobject.c	2018-04-01 18:41:35.405803057 -0700
+@@ -424,7 +424,7 @@
+ */
+ 
+ static object *
+-getline(f, n)
++py_getline(f, n)
+ 	fileobject *f;
+ 	int n;
+ {
+@@ -545,7 +545,7 @@
+ 	}
+ 	if (((fileobject*)f)->f_fp == NULL)
+ 		return err_closed();
+-	return getline((fileobject *)f, n);
++	return py_getline((fileobject *)f, n);
+ }
+ 
+ /* Python method */
+@@ -570,7 +570,7 @@
+ 			n = 0;
+ 	}
+ 
+-	return getline(f, n);
++	return py_getline(f, n);
+ }
+ 
+ static object *
+@@ -588,7 +588,7 @@
+ 	if ((list = newlistobject(0)) == NULL)
+ 		return NULL;
+ 	for (;;) {
+-		line = getline(f, 0);
++		line = py_getline(f, 0);
+ 		if (line != NULL && getstringsize(line) == 0) {
+ 			DECREF(line);
+ 			break;
