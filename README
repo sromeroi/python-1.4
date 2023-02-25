@@ -1,6 +1,16 @@
 
 This is Python release 1.4 patched to compile on modern systems.
 
+Why would anybody need Python 1.4 nowadays?
+
+Well,
+1.- I started to develop in Python with Python 1.4, and
+2.- Python 1.4 is still in use in some old computers such as the Amiga 1200.
+
+So, I needed to have a local copy of Python 1.4 on a modern Linux distribution
+so that I could locally develop some online tools (no urllib/requests, so direct
+TCP socket's connect/send/recv) for the Amiga 1200.
+
 Patched with https://gist.github.com/gpshead/7c7df23e2c9f3d413a52cbf90e984328
 (thanks to Gregory P. Smith).
 
